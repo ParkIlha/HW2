@@ -5,8 +5,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build-test-deploy:
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,13 +25,6 @@ jobs:
         run: |
           PYTHONPATH=$PWD pytest tests/test_performance.py -v
 
-  build-and-push:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -48,26 +41,9 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
 
-  deploy:
-    needs: build-and-push
-    # Self-hosted runner를 사용하도록 지정
-    runs-on: self-hosted
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_ONEHAA }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Pull Docker image
+      - name: Deploy Local (Stop, Remove, Run)
         run: |
           docker pull ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
-
-      - name: Stop and remove old container
-        run: |
           docker stop nlp-server || true
           docker rm nlp-server || true
-
-      - name: Run new container
-        run: |
           docker run -d --name nlp-server -p 8000:8000 ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
