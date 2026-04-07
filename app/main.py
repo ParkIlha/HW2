@@ -18,6 +18,7 @@ class SentimentResponse(BaseModel):
     label: str
     raw_emotion: str
     score: float
+    advice: str
 
 @app.get("/")
 def read_root():

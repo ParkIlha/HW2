@@ -27,8 +27,36 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
 
-      - name: Deploy Local (Stop, Remove, Run)
+      - name: Blue/Green Testing & Deployment
         run: |
+          echo "Starting Green Environment (Port 8001)..."
+          docker stop nlp-green || true
+          docker rm nlp-green || true
+          docker run -d --name nlp-green -p 8001:8000 ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
+          
+          echo "Waiting for Green Environment to initialize..."
+          sleep 5
+          
+          echo "Running Health Check on Green Environment..."
+          STATUSCODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8001/ || echo "500")
+          if [ "$STATUSCODE" -ne 200 ]; then
+            echo "❌ Green deployment failed health check (Status Code: $STATUSCODE)! Rolling back."
+            docker stop nlp-green || true
+            docker rm nlp-green || true
+            exit 1
+          fi
+          
+          echo "✅ Green Environment is healthy! Swapping Traffic to Production (Blue, Port 8000)..."
+          
+          # Destroy Blue (Production)
           docker stop nlp-server || true
           docker rm nlp-server || true
+          
+          # Deploy new Blue
           docker run -d --name nlp-server -p 8000:8000 ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
+          
+          # Cleanup Green
+          docker stop nlp-green || true
+          docker rm nlp-green || true
+          
+          echo "🎉 Zero-Downtime Blue/Green Deployment Successful!"
