@@ -5,12 +5,12 @@ MODEL_NAME = "bhadresh-savani/bert-base-multilingual-cased-emotion"
 class NLPEngine:
     def __init__(self):
         # Initialize pipeline. Load model.
-        self.classifier = pipeline("text-classification", model=MODEL_NAME, top_k=1)
+        self.classifier = pipeline("text-classification", model=MODEL_NAME)
         
     def analyze_sentiment(self, text: str):
+        # By default, pipeline returns [{"label": "joy", "score": 0.99}]
+        # Extract the first dict.
         result = self.classifier(text)[0]
-        if isinstance(result, list): 
-            result = result[0]
         
         label = result["label"].lower()
         score = result["score"]
