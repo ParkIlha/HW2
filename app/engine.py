@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-MODEL_NAME = "nlptown/bert-base-multilingual-uncased-sentiment"
+MODEL_NAME = "matthewburke/korean_sentiment"
 
 class NLPEngine:
     def __init__(self):
@@ -12,18 +12,13 @@ class NLPEngine:
         label = result["label"]
         score = result["score"]
         
-        # Map stars (1-5) to Korean sentiment
-        try:
-            stars = int(label.split()[0])
-        except:
-            stars = 3
-            
-        if stars >= 4:
+        # matthewburke/korean_sentiment outputs LABEL_1 (긍정) or LABEL_0 (부정)
+        if "1" in label or "POSITIVE" in label.upper() or "긍정" in label:
             emotion = "긍정적이에요 🤩"
-        elif stars == 3:
-            emotion = "보통이에요 😐"
-        else:
+        elif "0" in label or "NEGATIVE" in label.upper() or "부정" in label:
             emotion = "부정적이에요 😭"
+        else:
+            emotion = "보통이에요 😐"
             
         return {
             "label": emotion,
