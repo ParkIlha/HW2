@@ -46,7 +46,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/nlp-api:latest
+          tags: ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
 
   deploy:
     needs: build-and-push
@@ -55,7 +55,7 @@ jobs:
     steps:
       - name: Pull Docker image
         run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/nlp-api:latest
+          docker pull ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
 
       - name: Stop and remove old container
         run: |
@@ -64,4 +64,4 @@ jobs:
 
       - name: Run new container
         run: |
-          docker run -d --name nlp-server -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/nlp-api:latest
+          docker run -d --name nlp-server -p 8000:8000 ${{ secrets.DOCKERHUB_ONEHAA }}/nlp-api:latest
