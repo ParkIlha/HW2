@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-MODEL_NAME = "bhadresh-savani/bert-base-multilingual-cased-emotion"
+MODEL_NAME = "Seonghaa/korean-emotion-classifier-roberta"
 
 class NLPEngine:
     def __init__(self):
@@ -8,31 +8,35 @@ class NLPEngine:
         self.classifier = pipeline("text-classification", model=MODEL_NAME)
         
     def analyze_sentiment(self, text: str):
-        # By default, pipeline returns [{"label": "joy", "score": 0.99}]
+        # By default, pipeline returns [{"label": "기쁨", "score": 0.99}]
         # Extract the first dict.
         result = self.classifier(text)[0]
         
-        label = result["label"].lower()
+        label = result["label"]
         score = result["score"]
         
-        if label == "joy":
+        if label == "기쁨":
             emotion = "기뻐요! 😄"
-        elif label == "sadness":
+            raw_emotion = "joy"
+        elif label == "슬픔":
             emotion = "슬퍼요 😢"
-        elif label == "anger":
+            raw_emotion = "sadness"
+        elif label == "분노":
             emotion = "화가 나요 😡"
-        elif label == "fear":
-            emotion = "조금 무서워요 😨"
-        elif label == "love":
-            emotion = "사랑스러워요 🥰"
-        elif label == "surprise":
+            raw_emotion = "anger"
+        elif label == "불안":
+            emotion = "조금 불안/무서워요 😨"
+            raw_emotion = "fear"
+        elif label == "당황":
             emotion = "깜짝 놀랐어요! 😯"
-        else:
-            emotion = "보통이에요 😐"
+            raw_emotion = "surprise"
+        else: # 평온
+            emotion = "평온해요 😐"
+            raw_emotion = "love" # map to pink/calm
             
         return {
             "label": emotion,
-            "raw_emotion": label,
+            "raw_emotion": raw_emotion,
             "score": score
         }
 
