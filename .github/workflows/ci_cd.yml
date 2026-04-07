@@ -11,18 +11,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
       - name: Install dependencies
         run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run efficiency tests
         run: |
+          source .venv/bin/activate
           PYTHONPATH=$PWD pytest tests/test_performance.py -v
 
       - name: Set up Docker Buildx
