@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>감정 분석 AI</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <header class="chat-header">
+      <div class="avatar">🤖</div>
+      <div class="header-info">
+        <h1>감정 분석 AI</h1>
+        <p>iMessage Style</p>
+      </div>
+    </header>
+    
+    <div class="chat-history" id="chatHistory">
+      <!-- Chat bubbles will be injected here -->
+      <div class="message bot">
+        <div class="bubble">안녕하세요! 오늘 하루는 어떠셨나요? 아무 이야기나 편하게 들려주세요.</div>
+      </div>
+    </div>
+    
+    <form class="chat-input-area" id="chatForm">
+      <input type="text" id="userInput" placeholder="iMessage..." autocomplete="off" required>
+      <button type="submit" id="sendBtn">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </div>
+  
+  <script src="/static/app.js"></script>
+</body>
+</html>

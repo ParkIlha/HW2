@@ -6,7 +6,7 @@ from app.main import app
 client = TestClient(app)
 
 def test_efficiency_average_response_time():
-    test_text = {"text": "I love this product, it is absolutely amazing and works perfectly!"}
+    test_text = {"text": "UI가 정말 예쁘고 깔끔해서 앱을 쓸 때마다 기분이 너무 좋아요!"}
     
     total_time = 0
     iterations = 10
