@@ -16,6 +16,7 @@ class TextRequest(BaseModel):
 
 class SentimentResponse(BaseModel):
     label: str
+    raw_emotion: str
     score: float
 
 @app.get("/")

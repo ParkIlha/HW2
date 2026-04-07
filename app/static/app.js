@@ -10,9 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 메시지 UI 추가 함수
-    const appendMessage = (sender, text, score = null) => {
+    const appendMessage = (sender, text, score = null, raw_emotion = null) => {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${sender}`;
+        if (raw_emotion) {
+            msgDiv.classList.add(`emotion-${raw_emotion}`);
+        }
         
         let content = text;
         if (score !== null) {
@@ -73,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // 4. 로딩 제거 및 봇 메시지 표시
             removeTypingIndicator();
-            appendMessage('bot', data.label, data.score);
+            appendMessage('bot', data.label, data.score, data.raw_emotion);
 
         } catch (error) {
             removeTypingIndicator();

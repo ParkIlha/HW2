@@ -199,3 +199,11 @@ body {
   0%, 80%, 100% { transform: scale(0); }
   40% { transform: scale(1); }
 }
+
+/* Dynamic Emotion Colors for Bot Bubbles */
+.bot.emotion-joy .bubble { background: linear-gradient(135deg, #ffbe0b 0%, #fb5607 100%); color: #fff; box-shadow: 0 4px 10px rgba(251, 86, 7, 0.2); }
+.bot.emotion-sadness .bubble { background: linear-gradient(135deg, #48cae4 0%, #0077b6 100%); color: #fff; box-shadow: 0 4px 10px rgba(0, 119, 182, 0.2); }
+.bot.emotion-anger .bubble { background: linear-gradient(135deg, #ff0a54 0%, #cc0000 100%); color: #fff; box-shadow: 0 4px 10px rgba(204, 0, 0, 0.2); }
+.bot.emotion-fear .bubble { background: linear-gradient(135deg, #6c757d 0%, #343a40 100%); color: #fff; box-shadow: 0 4px 10px rgba(52, 58, 64, 0.2); }
+.bot.emotion-love .bubble { background: linear-gradient(135deg, #ffb5a7 0%, #ff5d8f 100%); color: #fff; box-shadow: 0 4px 10px rgba(255, 93, 143, 0.2); text-shadow: 0 1px 1px rgba(0,0,0,0.1); }
+.bot.emotion-surprise .bubble { background: linear-gradient(135deg, #80ffdb 0%, #06d6a0 100%); color: #333; box-shadow: 0 4px 10px rgba(6, 214, 160, 0.2); }
